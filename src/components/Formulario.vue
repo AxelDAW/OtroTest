@@ -36,43 +36,53 @@
 
             </div>
 
-            <div class="col">
-
-                <p>Elige el usuario al que quieres añadir tareas: </p>
-
-                <!-- Preguntar mañana como hacer
-                <select v-model="mostrarUsuarios" name="select">
-
-                    <option value="usuarios" v-for="(usuario) in usuarios" :key="usuario">{{ usuario }}</option>
-                    
-                </select>
-                -->   
-                <select>
-
-                    <option value=""></option>
-                    <option value="Axel">Axel</option>
-                    <option value="Plamen">Plamen</option>
-                    <option value="Pepe">Pepe</option>
-                    <option value="Adri">Adri</option>
-
-                </select>
-
-            </div>
-
-            <br>
-
-            <div class="col">
-
-                <p>Añadir Tareas: </p>
-
-                <input type="text" v-model="nuevaTarea" class="me-2">
-
-                <button @click="mostrarTareas()">Añadir tarea</button>
-
-            </div>
-
         </div>
-        
+    
+    </div>
+
+    <div class="container-fluid">
+
+            <div class="row justify-content-center mt-3">
+
+                <div class="col-6">
+
+                    <p>Elige el usuario al que quieres añadir tareas: </p>
+
+                    <!-- Preguntar mañana como hacer
+                    <select v-model="mostrarUsuarios" name="select">
+
+                        <option value="usuarios" v-for="(usuario) in usuarios" :key="usuario">{{ usuario }}</option>
+                        
+                    </select>
+                    -->   
+                    <select>
+
+                        <option value=""></option>
+                        <option value="Axel">Axel</option>
+                        <option value="Plamen">Plamen</option>
+                        <option value="Pepe">Pepe</option>
+                        <option value="Adri">Adri</option>
+
+                    </select>
+
+                    <br>
+
+                    <div class="col mt-3">
+
+                    <p>Añadir Tareas: </p>
+
+                    <input type="text" v-model="nuevaTarea" class="me-2" placeholder="Escribe la tarea...">
+
+                    <button @click="filtro">Añadir tarea</button>
+
+                    </div>
+
+                    <button @click="mostrarTareas">Mostrar tareas</button>
+
+                </div>
+
+            </div>
+    
     </div>
 
     <div class="container-fluid bg-secondary mt-5">
@@ -98,6 +108,8 @@ export default {
 
     name: 'Formulario',
 
+    emits: ['filtrar'],
+
     data(){
 
         return {
@@ -106,6 +118,8 @@ export default {
             contraseña: '',
             error: '',
             usuarios: [],
+            nuevaTarea: '',
+            tareas: [],
 
         }
     },
@@ -147,6 +161,21 @@ export default {
 
         },
 
+        filtro(){
+            
+            this.tareas.push(this.nuevaTarea)
+            this.$emit('filtrar', this.usuarios, this.tareas);
+
+        
+        },
+
+        mostrarTareas(){
+
+            console.log(this.tareas)
+
+        }
+        
+
     },
 
     mounted(){
@@ -155,6 +184,7 @@ export default {
         this.usuarios.push(usu)
         console.log(this.usuarios)
         */
+
     }
 
 }

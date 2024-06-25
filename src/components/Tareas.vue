@@ -20,10 +20,18 @@
 
     </div>
 
+    <div class="container">
+
+        <Formulario @filtrar="recibirTareas"/>
+
+    </div>
+
 
 </template>
 
 <script>
+
+import Formulario from './Formulario.vue';
 
 export default {
 
@@ -46,6 +54,12 @@ export default {
 
             this.tareas.push(this.nuevaTarea);
             this.nuevaTarea = '';
+
+        },
+
+        recibirTareas(){
+
+            
 
         }
 
