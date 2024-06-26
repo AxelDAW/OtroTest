@@ -1,6 +1,6 @@
 <template>
 
-  <router-view/>
+  <router-view @borrarTarea="(usuario,index)=>{tareas[usuario].splice(index,1)}" @actualizarTareas="(t)=>{ tareas = t; }" :tareas="tareas"/>
 
 </template>
 
@@ -8,7 +8,17 @@
 
 export default {
 
-  name: 'App'
+  name: 'App',
+
+  data(){
+
+    return({
+
+      tareas: [],
+
+    })
+
+  }
 
 }
 

@@ -1,6 +1,7 @@
 <template>
 
-    <Formulario></Formulario>
+    <Formulario @actualizarTareas="(tareas)=>{ $emit('actualizarTareas', tareas) }"></Formulario>
+    <!-- <p>{{ tareas['Axel'] ?? '' }}</p> -->
 
 </template>
 
@@ -11,6 +12,8 @@ import Formulario from '../components/Formulario.vue';
 export default {
 
     name: 'Login',
+
+    props: [ 'tareas' ],
 
     components: { Formulario }
 

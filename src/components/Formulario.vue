@@ -12,14 +12,14 @@
 
                 <form @submit.prevent="login">
 
-                    <div class="card mb-3">
+                    <div class="card p-1 mb-3">
 
                         <label>Usuario:</label>
                         <input type="text" id="usuario" v-model="usuario" required class="form-control" placeholder="Nombre de usuario...">
 
                     </div>
 
-                    <div class="card mb-3">
+                    <div class="card p-1 mb-3">
 
                         <label>Contraseña:</label>
                         <input type="password" id="contraseña" v-model="contraseña" required class="form-control" placeholder="Contraseña...">
@@ -48,32 +48,22 @@
 
                     <p>Elige el usuario al que quieres añadir tareas: </p>
 
-                    <!-- Preguntar mañana como hacer
-                    <select v-model="mostrarUsuarios" name="select">
+                    <select v-model="nuevaTarea.usuario">
 
-                        <option value="usuarios" v-for="(usuario) in usuarios" :key="usuario">{{ usuario }}</option>
+                        <option value="" default disabled>Selecciona</option>
+                        <option v-for="(usuario) in usuarios" :value="usuario" :key="usuario">{{ usuario }}</option>
                         
-                    </select>
-                    -->   
-                    <select>
-
-                        <option value=""></option>
-                        <option value="Axel">Axel</option>
-                        <option value="Plamen">Plamen</option>
-                        <option value="Pepe">Pepe</option>
-                        <option value="Adri">Adri</option>
-
                     </select>
 
                     <br>
 
                     <div class="col mt-3">
 
-                    <p>Añadir Tareas: </p>
+                        <p>Añadir Tareas: </p>
 
-                    <input type="text" v-model="nuevaTarea" class="me-2" placeholder="Escribe la tarea...">
+                        <input type="text" v-model="nuevaTarea.tarea" class="me-2" placeholder="Escribe la tarea...">
 
-                    <button @click="filtro">Añadir tarea</button>
+                        <button @click="agregarTarea">Añadir tarea</button>
 
                     </div>
 
@@ -108,8 +98,6 @@ export default {
 
     name: 'Formulario',
 
-    emits: ['filtrar'],
-
     data(){
 
         return {
@@ -118,8 +106,14 @@ export default {
             contraseña: '',
             error: '',
             usuarios: [],
-            nuevaTarea: '',
-            tareas: [],
+            tareas: {},
+
+            nuevaTarea: {
+
+                usuario: '',
+                tarea: '',
+
+            }
 
         }
     },
@@ -161,31 +155,32 @@ export default {
 
         },
 
-        filtro(){
-            
-            this.tareas.push(this.nuevaTarea)
-            this.$emit('filtrar', this.usuarios, this.tareas);
+        agregarTarea: function(){
 
-        
+            if( this.nuevaTarea.tarea != '' && this.nuevaTarea.usuario != '' ){
+                
+                if( !this.tareas[ this.nuevaTarea.usuario ] ){ this.tareas[ this.nuevaTarea.usuario ] = []; }
+
+                this.tareas[ this.nuevaTarea.usuario ].push( this.nuevaTarea.tarea );
+
+                console.log( "Tareas de " + this.nuevaTarea.usuario, this.tareas[ this.nuevaTarea.usuario ] );
+
+                this.$emit( 'actualizarTareas', this.tareas )
+
+            }
+
         },
 
         mostrarTareas(){
 
             console.log(this.tareas)
-
+            
         }
         
 
     },
 
-    mounted(){
-        /*
-        const usu = logins.map(login => login.usuario)
-        this.usuarios.push(usu)
-        console.log(this.usuarios)
-        */
-
-    }
+    mounted(){ logins.map(login =>{ this.usuarios.push(login.usuario); }) }
 
 }
 

@@ -4,71 +4,43 @@
 
         <div class="row">
 
-            <!--<div class="col">
+            <div class="col">
                 
                 <p>Lista de tareas: </p>
 
                 <ul>
 
-                    <li v-for="(tarea,index) in tareas" :key="index">{{ tarea }}</li>
+                    <li v-for="(tarea,index) in listaTareas[nombreUsu]" :key="index">{{ tarea }}
+
+                        <button @click="$emit('borrarTarea', nombreUsu, index)">Eliminar</button>
+
+                    </li>
 
                 </ul>
 
-            </div>-->
+            </div>
 
         </div>
 
     </div>
 
-    <div class="container">
 
-        <Formulario @filtrar="recibirTareas"/>
-
-    </div>
 
 
 </template>
 
 <script>
 
-import Formulario from './Formulario.vue';
-
 export default {
 
     name: 'Tareas',
 
-    data(){
-
-        return {
-
-            nuevaTarea: '',
-            tareas: [],
-
-        }
-
-    },
-
-    methods: {
-
-        mostrarTareas(){
-
-            this.tareas.push(this.nuevaTarea);
-            this.nuevaTarea = '';
-
-        },
-
-        recibirTareas(){
-
-            
-
-        }
-
-    },
+    props: ['listaTareas', 'nombreUsu'],
 
     mounted(){
 
-        console.log(this.tareas)
-    
+        console.log( this.listaTareas );
+
     }
 
 }
