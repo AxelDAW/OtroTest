@@ -15,14 +15,14 @@
                     <div class="card p-1 mb-3">
 
                         <label>Usuario:</label>
-                        <input type="text" id="usuario" v-model="usuario" required class="form-control" placeholder="Nombre de usuario...">
+                        <input type="text" id="usuario" v-model="guardar.usuario" required class="form-control" placeholder="Nombre de usuario...">
 
                     </div>
 
                     <div class="card p-1 mb-3">
 
                         <label>Contraseña:</label>
-                        <input type="password" id="contraseña" v-model="contraseña" required class="form-control" placeholder="Contraseña...">
+                        <input type="password" id="contraseña" v-model="guardar.contraseña" required class="form-control" placeholder="Contraseña...">
 
                     </div>
 
@@ -102,18 +102,23 @@ export default {
 
         return {
 
-            usuario: '',
-            contraseña: '',
             error: '',
-            usuarios: [],
             tareas: {},
+            usuarios: [],
+
+            guardar: {
+
+                usuario: '',
+                contraseña: '',
+
+            },
 
             nuevaTarea: {
 
                 usuario: '',
                 tarea: '',
 
-            }
+            },
 
         }
     },
@@ -126,7 +131,7 @@ export default {
 
                 setTimeout(() => {
 
-                    const encontrado = logins.find((e) => e.usuario === this.usuario && e.contraseña === this.contraseña);
+                    const encontrado = logins.find((e) => e.usuario === this.guardar.usuario && e.contraseña === this.guardar.contraseña);
                     resolve(encontrado)
 
                 })
@@ -137,21 +142,22 @@ export default {
 
         async login (){
 
-            this.error = '';
-            let encontrado = await this.encontrarUsuario(this.usuario, this.contraseña);
+            this.registrarUsuario();
+/*             this.error = '';
+            let encontrado = await this.encontrarUsuario(this.guardar.usuario, this.guardar.contraseña);
             
 
             if (encontrado && this.encontrarUsuario) {
 
-                localStorage.setItem('usuario', this.usuario);
-                localStorage.setItem('contraseña', this.contraseña);
+                localStorage.setItem('usuario', this.guardar.usuario);
+                localStorage.setItem('contraseña', this.guardar.contraseña);
                 this.$router.push('/Menu');
 
             } else {
 
                 this.error = "Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
 
-            }
+            } */
 
         },
 
@@ -175,12 +181,38 @@ export default {
 
             console.log(this.tareas)
             
+        },
+    
+        registrarUsuario(){
+
+            fetch('http://192.168.1.136:3000/usuarios', {
+
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify( this.guardar )
+
+            })
+            .then(response => {
+
+                if (response.ok){
+
+                    return response.json();
+
+                }
+
+            })
+
         }
-        
 
     },
 
-    mounted(){ logins.map(login =>{ this.usuarios.push(login.usuario); }) }
+    mounted(){ 
+        
+        logins.map(login =>{ this.usuarios.push(login.usuario); })
+
+    }
 
 }
 
