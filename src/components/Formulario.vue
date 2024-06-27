@@ -86,6 +86,8 @@
 
         </div>
 
+        <div>{{ this.recibir[3] }}</div>
+
     </div>
 
 </template>
@@ -120,6 +122,8 @@ export default {
 
             },
 
+            recibir: '',
+
         }
     },
 
@@ -142,8 +146,9 @@ export default {
 
         async login (){
 
+            this.obtenerUsuario();
             this.registrarUsuario();
-/*             this.error = '';
+            this.error = '';
             let encontrado = await this.encontrarUsuario(this.guardar.usuario, this.guardar.contraseña);
             
 
@@ -155,9 +160,9 @@ export default {
 
             } else {
 
-                this.error = "Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
+             this.error = "Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
 
-            } */
+            } 
 
         },
 
@@ -203,6 +208,30 @@ export default {
                 }
 
             })
+
+        },
+
+        obtenerUsuario(){
+
+            fetch('http://192.168.1.136:3000/usuarios')
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error('Error');
+
+                    }
+
+                    return response.json();
+
+                })
+                .then (data => {
+
+                    console.log(data);
+                    this.recibir = data;
+
+                })
+
 
         }
 
