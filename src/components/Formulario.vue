@@ -86,7 +86,7 @@
 
         </div>
 
-        <div>{{ this.recibir[3] }}</div>
+        <div>{{ this.recibir[0] }}</div>
 
     </div>
 
@@ -146,8 +146,9 @@ export default {
 
         async login (){
 
-            this.obtenerUsuario();
-            this.registrarUsuario();
+            await this.obtenerUsuario();
+            await this.registrarUsuario();
+
             this.error = '';
             let encontrado = await this.encontrarUsuario(this.guardar.usuario, this.guardar.contraseña);
             
@@ -188,9 +189,9 @@ export default {
             
         },
     
-        registrarUsuario(){
+        async registrarUsuario(){
 
-            fetch('http://192.168.1.136:3000/usuarios', {
+            return fetch('http://192.168.1.136:3000/usuarios', {
 
                 method: 'POST',
                 headers: { 
@@ -211,9 +212,9 @@ export default {
 
         },
 
-        obtenerUsuario(){
+        async obtenerUsuario(){
 
-            fetch('http://192.168.1.136:3000/usuarios')
+            return fetch('http://192.168.1.136:3000/usuario/' + this.usuarioBuscar)
                 .then(response => {
 
                     if (!response.ok) {
