@@ -90,6 +90,13 @@
 
     </div>
 
+    <div class="container-fluid">
+
+        <router-link to="/prueba">Prueba</router-link>
+
+
+    </div>
+
 </template>
 
 <script>
